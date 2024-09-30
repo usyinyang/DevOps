@@ -23,12 +23,12 @@ jobs:
         with:
           python-version: '3.x'
 
-      # Step 3: Install Python dependencies including Selenium
-      - name: Install Selenium
+      # Step 3: Install dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install selenium
-          
-      # Step 4: Run tests using Selenium
-      - name: Run tests
-        run: python -m unittest discover  # Adjust this to your testing framework
+          pip install -r requirements.txt  # Ensure you have a requirements.txt file
+
+      # Step 4: Run tests
+      - name: Run Python tests
+        run: python -m unittest discover -s tests -p "test_*.py" -v
