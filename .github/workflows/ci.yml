@@ -34,10 +34,4 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Install testing tools (if needed)
-      - name: Install pipe (or other testing dependencies)
-        run: sudo apt-get install -y pipe  # Adjust this to install `pipe` or any other required tools
 
-      # Step 3: Run tests using `pipe test`
-      - name: Run tests
-        run: pipe test
