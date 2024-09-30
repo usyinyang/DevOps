@@ -1,6 +1,6 @@
 name: CI/CD Pipeline
 
-# Trigger the workflow on push or pull request to main branch
+# Trigger the pipeline on push or pull requests to the main branch
 on:
   push:
     branches:
@@ -18,38 +18,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js environment
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
+      # Step 2: Set up the environment (if necessary, e.g., for C/C++, Python, Go, etc.)
+      - name: Install build dependencies
+        run: sudo apt-get install -y build-essential  # Adjust this to install required build tools
 
-      # Step 3: Install project dependencies
-      - name: Install dependencies
-        run: npm install
-
-      # Step 4: Build the project (optional if not applicable)
+      # Step 3: Build the project using `make build`
       - name: Build the project
-        run: npm run build
+        run: make build
 
   test:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code
+      # Step 1: Checkout the code again
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js environment
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
+      # Step 2: Install testing tools (if needed)
+      - name: Install pipe (or other testing dependencies)
+        run: sudo apt-get install -y Selenium  # Adjust this to install `pipe` or any other required tools
 
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: npm install
-
-      # Step 4: Run tests
+      # Step 3: Run tests using `pipe test`
       - name: Run tests
-        run: npm test
+        run: pipe test
