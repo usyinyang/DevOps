@@ -1,6 +1,5 @@
-name: CI/CD Pipeline
+name: CI Pipeline
 
-# Trigger the pipeline on push or pull requests to the main branch
 on:
   push:
     branches:
@@ -14,30 +13,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code from the repository
+      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up the environment (if necessary, e.g., for C/C++, Python, Go, etc.)
-      - name: Install build dependencies
-        run: sudo apt-get install -y build-essential  # Adjust this to install required build tools
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
 
-      # Step 3: Build the project using `make build`
-      - name: Build the project
-        run: make build
-
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      # Step 1: Checkout the code again
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # Step 2: Install testing tools (if needed)
-      - name: Install pipe (or other testing dependencies)
-        run: sudo apt-get install -y Selenium  # Adjust this to install `pipe` or any other required tools
-
-      # Step 3: Run tests using `pipe test`
+      # Step 3: Install Python dependencies including Selenium
+      - name: Install Selenium
+        run: |
+          python -m pip install --upgrade pip
+          pip install selenium
+          
+      # Step 4: Run tests using Selenium
       - name: Run tests
-        run: pipe test
+        run: python -m unittest discover  # Adjust this to your testing framework
